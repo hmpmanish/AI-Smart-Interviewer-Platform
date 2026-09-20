@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+python-multipart
+PyPDF2
+langchain
+langchain-google-genai
+python-dotenv
+opencv-python
+mediapipe
