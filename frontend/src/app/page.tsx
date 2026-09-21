@@ -60,11 +60,14 @@ export default function Dashboard() {
       }
     }, 500);
 
+    const currentVideo = videoRef.current;
+    const currentWs = wsRef.current;
+
     return () => {
       clearInterval(interval);
-      wsRef.current?.close();
-      if (videoRef.current?.srcObject) {
-        const stream = videoRef.current.srcObject as MediaStream;
+      currentWs?.close();
+      if (currentVideo?.srcObject) {
+        const stream = currentVideo.srcObject as MediaStream;
         stream.getTracks().forEach(track => track.stop());
       }
     };
@@ -105,7 +108,7 @@ export default function Dashboard() {
       return;
     }
 
-    // @ts-ignore - Web Speech API
+    // @ts-expect-error - Web Speech API
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
       alert("Speech recognition is not supported in this browser. Please use Chrome or Edge.");
@@ -120,6 +123,7 @@ export default function Dashboard() {
       setIsRecording(true);
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     recognition.onresult = (event: any) => {
       let finalTranscript = '';
       for (let i = event.resultIndex; i < event.results.length; ++i) {
@@ -132,6 +136,7 @@ export default function Dashboard() {
       }
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     recognition.onerror = (event: any) => {
       console.error("Speech recognition error", event.error);
       setIsRecording(false);

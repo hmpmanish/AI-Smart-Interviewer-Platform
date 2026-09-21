@@ -15,10 +15,12 @@ export default function CodeWhiteboard() {
     // In a real app, this would connect to the backend WebSocket
     // wsRef.current = new WebSocket("ws://localhost:8000/ws/code");
     
+    const currentWs = wsRef.current;
+
     // Cleanup on unmount
     return () => {
-      if (wsRef.current) {
-        wsRef.current.close();
+      if (currentWs) {
+        currentWs.close();
       }
     };
   }, []);
